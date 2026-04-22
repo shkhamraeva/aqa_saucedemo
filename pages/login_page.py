@@ -1,5 +1,6 @@
 from playwright.sync_api import expect
 
+from config.base import E_MSG_LOGIN
 from pages.base_page import BasePage
 
 
@@ -10,6 +11,7 @@ class LoginPage(BasePage):
         self.field_username = self.page.locator("#user-name")
         self.field_password = self.page.locator("#password")
         self.btn_login = self.page.get_by_role("button", name="Login")
+        self.error = self.page.locator(".error-message-container")
 
     def fill_username(self, username):
         self.field_username.fill(username)
@@ -25,3 +27,8 @@ class LoginPage(BasePage):
 
     def check_field_password(self, password):
         expect(self.field_password).to_have_value(password)
+
+    def check_error_with_msg(self, error_msg=E_MSG_LOGIN):
+        expect(self.error).to_be_visible()
+        expect(self.error).to_have_text(error_msg)
+        return True
