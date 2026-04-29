@@ -24,11 +24,11 @@ class TestAuth:
         login_page.expect_to_have_url("/inventory.html")
         # Шаг 5	Найти товар "Sauce Labs Backpack"
         inventory_page = InventoryPage(page)
-        assert inventory_page.have_title("Products"), "Заголовок не тот"
+        assert inventory_page.check_have_title("Products"), "Заголовок не тот"
 
     @pytest.mark.parametrize(
         "page,username,password,error_msg",
-        [((True, 123), USER1_NAME, "wrong_password", E_MSG_LOGIN),
+        [((True), USER1_NAME, "wrong_password", E_MSG_LOGIN),
          (False, USER_FAKE_NAME, USERS_PASSWORD, E_MSG_LOGIN),
          (True, "", USERS_PASSWORD, E_MSG_LOGIN_USERNAME),
          (True, USER1_NAME, "", E_MSG_LOGIN_PASSWORD),

@@ -27,7 +27,7 @@ class InventoryPage(BasePage):
     def click_btn_add_to_cart(self):
         self.btn_add_to_card.click()
 
-    def have_title(self, title_text: str):
+    def check_have_title(self, title_text: str):
         expect(self.title).to_be_visible()
         expect(self.title).to_have_text(title_text)
         return True
