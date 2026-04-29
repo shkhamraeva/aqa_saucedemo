@@ -28,7 +28,7 @@ class TestAuth:
 
     @pytest.mark.parametrize(
         "page,username,password,error_msg",
-        [((True), USER1_NAME, "wrong_password", E_MSG_LOGIN),
+        [(True, USER1_NAME, "wrong_password", E_MSG_LOGIN),
          (False, USER_FAKE_NAME, USERS_PASSWORD, E_MSG_LOGIN),
          (True, "", USERS_PASSWORD, E_MSG_LOGIN_USERNAME),
          (True, USER1_NAME, "", E_MSG_LOGIN_PASSWORD),

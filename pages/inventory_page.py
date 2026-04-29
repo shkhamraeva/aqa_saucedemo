@@ -21,6 +21,7 @@ class InventoryPage(BasePage):
     def get_backpack1_price(self) -> str:
         price_ = self.price.text_content()
         return price_
+
     def check_is_price(self):
         assert self.get_backpack1_price().startswith("$")
 
