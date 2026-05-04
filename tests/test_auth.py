@@ -78,16 +78,12 @@ class TestAuth:
         login_page.open()
 
         for i in range(1, 6):
-            login_page.fill_username(USER1_NAME)
-            login_page.fill_password(USERS_FAKE_PASSWORD)
-            login_page.click_btn_login()
+            login_page.login_procedure(USER1_NAME, USERS_FAKE_PASSWORD)
             assert login_page.check_error_with_msg(E_MSG_LOGIN), \
                 f"Попытка {i}: ожидалось сообщение об ошибке, но его нет"
             login_page.open()
 
-        login_page.fill_username(USER1_NAME)
-        login_page.fill_password(USERS_PASSWORD)
-        login_page.click_btn_login()
+        login_page.login_procedure(USER1_NAME, USERS_PASSWORD)
 
         login_page.expect_to_have_url("/inventory.html")
         inventory_page = InventoryPage(page)
@@ -101,9 +97,7 @@ class TestAuth:
         """
         login_page = LoginPage(page)
         login_page.open()
-        login_page.fill_username(USER1_NAME)
-        login_page.fill_password(USERS_PASSWORD)
-        login_page.click_btn_login()
+        login_page.login_procedure(USER1_NAME, USERS_PASSWORD)
         login_page.expect_to_have_url("/inventory.html")
 
         page.reload()
