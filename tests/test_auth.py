@@ -1,7 +1,9 @@
 import pytest
 
 from config.base import E_MSG_LOGIN, E_MSG_LOGIN_USERNAME, E_MSG_LOGIN_PASSWORD
-from config.users import USER1_NAME, USERS_PASSWORD, USER_FAKE_NAME
+from config.users import USER1_NAME, USERS_PASSWORD, USER_FAKE_NAME, \
+    USERS_FAKE_PASSWORD
+from conftest import page
 from pages.inventory_page import InventoryPage
 from pages.login_page import LoginPage
 
@@ -65,3 +67,42 @@ class TestAuth:
         login_page.click_btn_login()
         assert login_page.check_error_with_msg(
             error_msg), "Что-то пошло не так!"
+
+    def test_auth_009(self, page):
+        """
+        009 Блокировка после 5 неудачных попыток входа
+        :param page: фикстура браузера со страницей
+        :return: None
+        """
+        login_page = LoginPage(page)
+        login_page.open()
+
+        for i in range(1, 6):
+            login_page.login_procedure(USER1_NAME, USERS_FAKE_PASSWORD)
+            assert login_page.check_error_with_msg(E_MSG_LOGIN), \
+                f"Попытка {i}: ожидалось сообщение об ошибке, но его нет"
+            login_page.open()
+
+        login_page.login_procedure(USER1_NAME, USERS_PASSWORD)
+
+        login_page.expect_to_have_url("/inventory.html")
+        inventory_page = InventoryPage(page)
+        assert inventory_page.check_have_title("Products")
+
+    def test_auth_010(self, page):
+        """
+        010 Сохранение сессии после перезагрузки страницы
+        :param page: фикстура браузера со страницей
+        :return: None
+        """
+        login_page = LoginPage(page)
+        login_page.open()
+        login_page.login_procedure(USER1_NAME, USERS_PASSWORD)
+        login_page.expect_to_have_url("/inventory.html")
+
+        page.reload()
+
+        login_page.expect_to_have_url("/inventory.html")
+        inventory_page = InventoryPage(page)
+        assert inventory_page.check_have_title("Products"), \
+            "Сессия не сохранилась после перезагрузки страницы!"
