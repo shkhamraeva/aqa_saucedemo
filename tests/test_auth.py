@@ -1,6 +1,7 @@
 import pytest
 
-from config.base import E_MSG_LOGIN, E_MSG_LOGIN_USERNAME, E_MSG_LOGIN_PASSWORD
+from config.base import E_MSG_LOGIN, E_MSG_LOGIN_USERNAME, \
+    E_MSG_LOGIN_PASSWORD, INVENTORY_URL
 from config.users import USER1_NAME, USERS_PASSWORD, USER_FAKE_NAME, \
     USERS_FAKE_PASSWORD
 from conftest import page
@@ -85,7 +86,7 @@ class TestAuth:
 
         login_page.login_procedure(USER1_NAME, USERS_PASSWORD)
 
-        login_page.expect_to_have_url("/inventory.html")
+        login_page.expect_to_have_url(INVENTORY_URL)
         inventory_page = InventoryPage(page)
         assert inventory_page.check_have_title("Products")
 
@@ -98,7 +99,7 @@ class TestAuth:
         login_page = LoginPage(page)
         login_page.open()
         login_page.login_procedure(USER1_NAME, USERS_PASSWORD)
-        login_page.expect_to_have_url("/inventory.html")
+        login_page.expect_to_have_url(INVENTORY_URL)
 
         page.reload()
 
