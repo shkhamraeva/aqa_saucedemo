@@ -103,7 +103,7 @@ class TestAuth:
 
         page.reload()
 
-        login_page.expect_to_have_url("/inventory.html")
+        login_page.expect_to_have_url(INVENTORY_URL)
         inventory_page = InventoryPage(page)
         assert inventory_page.check_have_title("Products"), \
             "Сессия не сохранилась после перезагрузки страницы!"
