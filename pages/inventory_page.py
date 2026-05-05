@@ -32,3 +32,12 @@ class InventoryPage(BasePage):
         expect(self.title).to_be_visible()
         expect(self.title).to_have_text(title_text)
         return True
+
+    def get_products_count(self):
+        return self.page.locator(".inventory_item").count()
+
+    def get_products_names(self) -> list:
+        return self.page.locator(".inventory_item_name").all_text_contents()
+
+    def get_products_prices(self) -> list:
+        return self.page.locator(".inventory_item_price").all_text_contents()
