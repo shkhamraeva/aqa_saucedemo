@@ -1,7 +1,7 @@
 import allure
 
 from config.base import INVENTORY_URL
-from config.products import EXPECTED_PRODUCTS, EXPECTED_PRICES
+from config.products import ExpectedProduct
 from pages.inventory_page import InventoryPage
 from pages.login_page import LoginPage
 from config.users import USER1_NAME, USERS_PASSWORD
@@ -19,13 +19,16 @@ class TestInventory:
         """
         login_page = LoginPage(page)
         login_page.open()
-
         login_page.login_procedure(USER1_NAME, USERS_PASSWORD)
+
         inventory_page = InventoryPage(page)
         inventory_page.expect_to_have_url(INVENTORY_URL)
-        assert page.locator(".inventory_item").count() == 6, (
-            f"Ошибка: ожидалось 6 товаров, но отображается "
-            f"{page.locator('.inventory_item').count()}")
+
+        actual_count = inventory_page.get_products_count()
+        expected_count = len(ExpectedProduct)
+        assert actual_count == expected_count, \
+            (f"Ошибка: ожидалось {expected_count} товаров, "
+             f"но отображается {actual_count}")
 
     @allure.title("Проверка названий всех товаров")
     def test_inv_002(self, page):
@@ -36,14 +39,18 @@ class TestInventory:
         """
         login_page = LoginPage(page)
         login_page.open()
-
         login_page.login_procedure(USER1_NAME, USERS_PASSWORD)
+
         inventory_page = InventoryPage(page)
         inventory_page.expect_to_have_url(INVENTORY_URL)
-        actual_names = inventory_page.get_products_names()
-        assert sorted(actual_names) == sorted(EXPECTED_PRODUCTS), (
-             f"Названия товаров не совпадают с эталоном.\nОжидалось: "
-             f"{sorted(EXPECTED_PRODUCTS)}\nПолучено: {sorted(actual_names)}")
+
+        actual_names = sorted(inventory_page.get_products_names())
+        expected_names = sorted(p.title for p in ExpectedProduct)
+
+        assert actual_names == expected_names, \
+            (f"Названия товаров не совпадают с эталоном.\n"
+             f"Ожидалось: {expected_names}\n"
+             f"Получено:  {actual_names}")
 
     @allure.title("Проверка цен всех товаров")
     def test_inv_003(self, page):
@@ -54,14 +61,18 @@ class TestInventory:
         """
         login_page = LoginPage(page)
         login_page.open()
-
         login_page.login_procedure(USER1_NAME, USERS_PASSWORD)
+
         inventory_page = InventoryPage(page)
         inventory_page.expect_to_have_url(INVENTORY_URL)
-        actual_prices = inventory_page.get_products_prices()
-        assert sorted(actual_prices) == sorted(EXPECTED_PRICES), (
-             f"Цены не совпадают с эталоном.\nОжидалось: "
-             f"{sorted(EXPECTED_PRICES)}\nПолучено: {sorted(actual_prices)}")
+
+        actual_prices = sorted(inventory_page.get_products_prices())
+        expected_prices = sorted(p.price for p in ExpectedProduct)
+
+        assert actual_prices == expected_prices, \
+        (f"Цены не совпадают с эталоном.\n"
+         f"Ожидалось: {expected_prices}\n"
+         f"Получено:  {actual_prices}")
 
     @allure.title("Проверка изображений товаров")
     def test_inv_004(self, page):
