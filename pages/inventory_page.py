@@ -21,6 +21,7 @@ class InventoryPage(BasePage):
         self.backpack_img = self.page.locator(
             f"//*[text()='{BACKPACK}']/../../..//img")
         self.cart_badge = self.page.locator(".shopping_cart_badge")
+        self.add_to_cart_buttons = self.page.locator("button.btn_inventory")
 
     def check_backpack1_visible(self):
         expect(self.backpack1).to_be_visible()
@@ -72,3 +73,19 @@ class InventoryPage(BasePage):
         if self.cart_badge.count() == 0:
             return 0
         return int(self.cart_badge.text_content())
+
+    def add_multiple_items_to_cart(self, count: int):
+        for i in range(count):
+            self.add_to_cart_buttons.nth(i).click()
+
+    def verify_items_in_bucket(self, expected: str):
+        expect(self.cart_badge).to_have_text(expected)
+
+    def add_first_item_to_cart(self):
+        self.add_to_cart_buttons.first.click()
+
+    def verify_first_item_button_is_remove(self):
+        expect(self.add_to_cart_buttons.first).to_have_text("Remove")
+
+    def verify_bucket_is_empty(self):
+        expect(self.cart_badge).to_be_hidden()
