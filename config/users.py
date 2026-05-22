@@ -1,4 +1,5 @@
 USER1_NAME = "standard_user"
+USER2_NAME = "locked_out_user"
 USER_FAKE_NAME = "fake_user"
 USERS_PASSWORD = "secret_sauce"
 USERS_FAKE_PASSWORD = "wrong_password"
