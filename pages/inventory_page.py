@@ -22,6 +22,9 @@ class InventoryPage(BasePage):
             f"//*[text()='{BACKPACK}']/../../..//img")
         self.cart_badge = self.page.locator(".shopping_cart_badge")
         self.add_to_cart_buttons = self.page.locator("button.btn_inventory")
+        self.cart_icon = self.page.locator(".shopping_cart_link")
+        self.burger_menu_btn = self.page.locator("#react-burger-menu-btn")
+        self.logout_btn = self.page.locator("#logout_sidebar_link")
 
     def check_backpack1_visible(self):
         expect(self.backpack1).to_be_visible()
@@ -89,3 +92,16 @@ class InventoryPage(BasePage):
 
     def verify_bucket_is_empty(self):
         expect(self.cart_badge).to_be_hidden()
+
+    def click_cart_icon(self):
+        self.cart_icon.click()
+
+    def reload_page(self):
+        self.page.reload()
+
+    def open_burger_menu(self):
+        self.burger_menu_btn.click()
+
+    def logout(self):
+        self.open_burger_menu()
+        self.logout_btn.click()
