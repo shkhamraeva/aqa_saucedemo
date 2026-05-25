@@ -11,8 +11,8 @@ class CartPage(BasePage):
         self.continue_shopping_btn = self.page.locator("#continue-shopping")
         self.cart_items = self.page.locator(".cart_item")
 
-    def check_cart_badge(self, expected: str):
-        expect(self.cart_badge).to_have_text(expected)
+    def check_cart_badge(self, expected_text: str):
+        expect(self.cart_badge).to_have_text(expected_text)
 
     def verify_cart_page_url(self):
         expect(self.page).to_have_url(URL_BASE + URL_CART)
