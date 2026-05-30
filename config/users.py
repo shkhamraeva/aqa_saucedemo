@@ -3,3 +3,8 @@ USER2_NAME = "locked_out_user"
 USER_FAKE_NAME = "fake_user"
 USERS_PASSWORD = "secret_sauce"
 USERS_FAKE_PASSWORD = "wrong_password"
+
+FIRST_NAME = "Imia"
+LAST_NAME = "Familia"
+POSTAL_CODE = "12345"
+INVALID_POSTAL_CODE = "000"
